@@ -73,16 +73,29 @@
     };
     userFormSubmit.onclick = e => {
       fetch(urlField.value, { method: methodSelect.value, headers: {Accept: 'application/json'} }).then((response) => {
+        switch (response.status) {
+          case 200: //created
+            content.innerHTML = '<h2>Success</h2>';
+            break;
+          case 404:
+            content.innerHTML = `<h2>Not Found</h2>`;
+            break;
+          default: //any other status code
+            content.innerHTML = "Error code not implemented by client.";
+            break;
+        }
         if (methodSelect.value === 'get') {
           return response.json();
         }
         else {
-          content.innerHTML = `<h2>Status code: ${response.status}</h2>`;
           return false;
         }
       }).then((json) => {
-        if (json) {
-          content.textContent = JSON.stringify(json);
+        if (json?.message) {
+          content.innerHTML += `<p>Message: ${json.message}</p>`;
+        }
+        else if (json) {
+          content.innerHTML += `<p>${JSON.stringify(json)}</p>`;
         }
       });
       return false;
