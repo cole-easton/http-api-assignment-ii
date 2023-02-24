@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
-  
-  <script>
-
-  </script>
 </head>
+
 <body>
   <section id="top">
     <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
+    <div id="nameForm">
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
       <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
-      <input type="submit" value="Add User" />
-    </form>
-    <form id="userForm" action="/getUsers" method="get">
+      <input id="ageField" type="number" name="age" min="0" max="100" step="1" />
+      <button id="nameFormSubmit">Add User</button>
+    </div>
+    <div id="userForm">
       <select id='urlField'>
         <option value='/getUsers'>/getUsers</option>
         <option value='/notReal'>/notReal</option>
@@ -27,10 +25,73 @@
         <option value="get">GET</option>
         <option value="head">HEAD</option>
       </select>
-      <input type="submit" value="Get User" />
-    </form>
+      <button id="userFormSubmit">Get Users</button>
+    </div>
   </section>
   <section id="content">
   </section>
+
+  <script>
+    const ageField = document.querySelector('#ageField');
+    const nameField = document.querySelector('#nameField');
+    const contentElement = document.querySelector('#content');
+    const nameFormSubmit = document.querySelector('#nameFormSubmit');
+    const userFormSumbit = document.querySelector('#userFormSubmit');
+    const methodSelect = document.querySelector('#methodSelect');
+    const urlField = document.querySelector('#urlField');
+    nameFormSubmit.onclick = e => {
+      fetch("/addUser", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json',
+        },
+        body: `name=${nameField.value}&age=${ageField.value}`,
+      }).then(response => {
+        console.log(response);
+        switch (response.status) {
+          case 201: //created
+            content.innerHTML = '<h2>Created</h2>';
+            break;
+          case 204: //updated 
+            content.innerHTML = '<h2>Updated (No Content)</h2>';
+            return;
+          case 400:
+            content.innerHTML = `<h2>Bad Request</h2>`;
+            break;
+          default: //any other status code
+            content.innerHTML = `Error code not implemented by client.`;
+            break;
+        }
+        return response.json();
+      }).then(json => {
+        if (json?.message) {
+          content.innerHTML += `<p>Message: ${json.message}</p>`;
+        }
+      });
+      return false;
+    };
+    userFormSubmit.onclick = e => {
+      fetch(urlField.value, { method: methodSelect.value, headers: {Accept: 'application/json'} }).then((response) => {
+        if (methodSelect.value === 'get') {
+          return response.json();
+        }
+        else {
+          content.innerHTML = `<h2>Status code: ${response.status}</h2>`;
+          return false;
+        }
+      }).then((json) => {
+        if (json) {
+          content.textContent = JSON.stringify(json);
+        }
+      });
+      return false;
+    };
+
+
+  </script>
 </body>
+
+
+
 </html>

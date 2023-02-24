@@ -1,6 +1,4 @@
 const fs = require('fs');
-const url = require('url');
-const query = require('querystring');
 
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const stylesheet = fs.readFileSync(`${__dirname}/../client/style.css`);
@@ -14,11 +12,10 @@ function getIndex(request, response) {
 }
 
 function getStylesheet(request, response) {
-  response.writeHead(200, { 'Content-Type': 'text/html' });
+  response.writeHead(200, { 'Content-Type': 'text/css' });
   if (request.method === 'GET') {
     response.write(stylesheet);
   }
-  response.end();
   response.end();
 }
 

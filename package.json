@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IGM-RichMedia-at-RIT/http-api-assignment-ii.git"
+    "url": "git+https://github.com/cole-easton/http-api-assignment-ii.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/IGM-RichMedia-at-RIT/http-api-assignment-ii/issues"
+    "url": "https://github.com/cole-easton/http-api-assignment-ii.git"
   },
-  "homepage": "https://github.com/IGM-RichMedia-at-RIT/http-api-assignment-ii#readme",
+  "homepage": "https://github.com/cole-easton/http-api-assignment-ii.git#readme",
   "devDependencies": {
     "eslint": "^8.34.0",
     "eslint-config-airbnb": "^19.0.4",
