@@ -1,7 +1,7 @@
 function getNotFound(request, response) {
-    response.writeHead(404, { 'Content-Type': 'text/html' });
-    if (request.method === 'GET') {
-        response.write(`
+  response.writeHead(404, { 'Content-Type': 'text/html' });
+  if (request.method === 'GET') {
+    response.write(`
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -13,24 +13,24 @@ function getNotFound(request, response) {
         </body>
     </html>
         `);
-    }
-    response.end();
+  }
+  response.end();
 }
 
 function getNotReal(request, response) {
-    response.writeHead(404, { 'Content-Type': 'application/json' });
-    if (request.method === 'GET') {
-        response.write(
-            JSON.stringify({
-                id: "notFound",
-                message: "The page you are looking for was not found."
-            })
-        );
-    }
-    response.end();
+  response.writeHead(404, { 'Content-Type': 'application/json' });
+  if (request.method === 'GET') {
+    response.write(
+      JSON.stringify({
+        id: 'notFound',
+        message: 'The page you are looking for was not found.',
+      }),
+    );
+  }
+  response.end();
 }
 
 module.exports = {
-    getNotFound,
-    getNotReal,
+  getNotFound,
+  getNotReal,
 };
